@@ -1,0 +1,126 @@
+.workspace {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--surface);
+  color: inherit;
+}
+
+/* ── Top toolbar ─────────────────────────────────────────── */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 48px;
+  padding: 0 12px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--surface-raised);
+}
+
+.brand {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.toolbarActions {
+  display: flex;
+  gap: 8px;
+}
+
+.toolbarActions button {
+  padding: 6px 12px;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.toolbarActions button:hover {
+  background-color: var(--surface);
+  border-color: var(--accent);
+}
+
+/* ── Resizable panels ────────────────────────────────────── */
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  padding: 12px;
+}
+
+.sidebarTitle {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.sidebarList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--muted);
+}
+
+.viewer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--muted);
+  text-align: center;
+}
+
+.viewer h2 {
+  margin: 0 0 4px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: inherit;
+}
+
+.viewer p {
+  margin: 0;
+}
+
+/* ── Resize handle ───────────────────────────────────────── */
+
+.handle {
+  width: 6px;
+  flex-shrink: 0;
+  cursor: col-resize;
+  background-color: var(--border);
+  transition: background-color 120ms ease;
+  outline: none;
+}
+
+.handle:hover,
+.handle[data-separator="active"],
+.handle[data-separator="focus"] {
+  background-color: var(--accent);
+}
+
+/* ── Bottom AI chat bar ──────────────────────────────────── */
+
+.chatbar {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 12px;
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+  background-color: var(--surface-raised);
+  color: var(--muted);
+}

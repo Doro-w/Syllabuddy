@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import App from "./App";
 
 describe("App", () => {
-  it("renders the application title", () => {
+  it("renders the workspace layout", () => {
     render(<App />);
-    expect(screen.getByRole("heading", { name: /syllabuddy/i })).toBeInTheDocument();
+    expect(screen.getByText("Document Viewer")).toBeInTheDocument();
   });
 });
