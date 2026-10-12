@@ -7,6 +7,12 @@ vi.mock("@tauri-apps/plugin-dialog", () => ({
   open: vi.fn(),
 }));
 
+vi.mock("../../features/documents/DocumentViewer", () => ({
+  DocumentViewer: ({ path }: { path: string }) => (
+    <div data-testid="document-viewer">Document: {path}</div>
+  ),
+}));
+
 const openMock = vi.mocked(open);
 
 describe("WorkspaceLayout", () => {
@@ -37,8 +43,9 @@ describe("WorkspaceLayout", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Open File" }));
 
-    expect(await screen.findByText("lecture.pdf")).toBeInTheDocument();
-    expect(screen.getByText("C:\\docs\\lecture.pdf")).toBeInTheDocument();
+    expect(await screen.findByTestId("document-viewer")).toHaveTextContent(
+      "C:\\docs\\lecture.pdf",
+    );
   });
 
   it("keeps the empty state when the dialog is cancelled", async () => {

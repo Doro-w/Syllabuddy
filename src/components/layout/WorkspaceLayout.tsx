@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { APP_NAME } from "../../shared/constants/app";
-import { basename } from "../../shared/utils/path";
 import { openDocumentPicker } from "../../features/documents/openDocument";
+import { DocumentViewer } from "../../features/documents/DocumentViewer";
 import styles from "./WorkspaceLayout.module.css";
 
 /**
@@ -46,10 +46,7 @@ export function WorkspaceLayout() {
 
         <Panel id="document-viewer" minSize="40">
           {documentPath ? (
-            <div className={styles.viewer}>
-              <h2>{basename(documentPath)}</h2>
-              <p className={styles.viewerPath}>{documentPath}</p>
-            </div>
+            <DocumentViewer key={documentPath} path={documentPath} />
           ) : (
             <div className={styles.viewer}>
               <h2>Document Viewer</h2>
