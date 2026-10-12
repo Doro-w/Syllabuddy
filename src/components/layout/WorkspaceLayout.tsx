@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { Group, Panel, Separator } from "react-resizable-panels";
 import { APP_NAME } from "../../shared/constants/app";
+import { basename } from "../../shared/utils/path";
+import { openDocumentPicker } from "../../features/documents/openDocument";
 import styles from "./WorkspaceLayout.module.css";
 
 /**
@@ -8,13 +11,24 @@ import styles from "./WorkspaceLayout.module.css";
  * Layout spec: AGENTS.md §5.1.
  */
 export function WorkspaceLayout() {
+  const [documentPath, setDocumentPath] = useState<string | null>(null);
+
+  async function handleOpenFile() {
+    const path = await openDocumentPicker();
+    if (path) {
+      setDocumentPath(path);
+    }
+  }
+
   return (
     <div className={styles.workspace}>
       <header className={styles.toolbar}>
         <span className={styles.brand}>{APP_NAME}</span>
         <nav className={styles.toolbarActions} aria-label="Workspace actions">
           <button type="button">Workspace</button>
-          <button type="button">Open File</button>
+          <button type="button" onClick={handleOpenFile}>
+            Open File
+          </button>
           <button type="button">Search</button>
           <button type="button">AI Provider</button>
         </nav>
@@ -31,10 +45,17 @@ export function WorkspaceLayout() {
         <Separator id="left-separator" className={styles.handle} />
 
         <Panel id="document-viewer" minSize="40">
-          <div className={styles.viewer}>
-            <h2>Document Viewer</h2>
-            <p>No document open</p>
-          </div>
+          {documentPath ? (
+            <div className={styles.viewer}>
+              <h2>{basename(documentPath)}</h2>
+              <p className={styles.viewerPath}>{documentPath}</p>
+            </div>
+          ) : (
+            <div className={styles.viewer}>
+              <h2>Document Viewer</h2>
+              <p>No document open</p>
+            </div>
+          )}
         </Panel>
 
         <Separator id="right-separator" className={styles.handle} />

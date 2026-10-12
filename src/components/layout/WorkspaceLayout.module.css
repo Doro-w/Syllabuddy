@@ -95,6 +95,13 @@
   margin: 0;
 }
 
+.viewer p.viewerPath {
+  margin-top: 4px;
+  font-size: 0.8125rem;
+  word-break: break-all;
+  opacity: 0.75;
+}
+
 /* ── Resize handle ───────────────────────────────────────── */
 
 .handle {

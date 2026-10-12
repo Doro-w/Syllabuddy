@@ -1,8 +1,19 @@
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { open } from "@tauri-apps/plugin-dialog";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { WorkspaceLayout } from "./WorkspaceLayout";
 
+vi.mock("@tauri-apps/plugin-dialog", () => ({
+  open: vi.fn(),
+}));
+
+const openMock = vi.mocked(open);
+
 describe("WorkspaceLayout", () => {
+  beforeEach(() => {
+    openMock.mockReset();
+  });
+
   it("renders the three workspace areas", () => {
     render(<WorkspaceLayout />);
 
@@ -18,5 +29,25 @@ describe("WorkspaceLayout", () => {
     expect(
       screen.getByText("AI Chat — Current Document + Page + Selected Text"),
     ).toBeInTheDocument();
+  });
+
+  it("shows the selected document after opening a file", async () => {
+    openMock.mockResolvedValue("C:\\docs\\lecture.pdf");
+    render(<WorkspaceLayout />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Open File" }));
+
+    expect(await screen.findByText("lecture.pdf")).toBeInTheDocument();
+    expect(screen.getByText("C:\\docs\\lecture.pdf")).toBeInTheDocument();
+  });
+
+  it("keeps the empty state when the dialog is cancelled", async () => {
+    openMock.mockResolvedValue(null);
+    render(<WorkspaceLayout />);
+
+    fireEvent.click(screen.getByRole("button", { name: "Open File" }));
+
+    await waitFor(() => expect(openMock).toHaveBeenCalledTimes(1));
+    expect(screen.getByText("No document open")).toBeInTheDocument();
   });
 });
